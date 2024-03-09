@@ -24,7 +24,7 @@ import AdminSession from './pages/AdminSession';
 import AdminSessionCreate from './pages/AdminSessionCreate';
 import AdminCourse from './pages/AdminCourse';
 import AdminCourseCreate from './pages/AdminCourseCreate';
-import Dashboard from './pages/User/dashboard';
+import Dashboard from './pages/User/Dashboard';
 import UserLayout from './components/Layout/UserLayout';
 import { Children } from 'react';
 import AdminLayout from './components/Layout/AdminLayout';
