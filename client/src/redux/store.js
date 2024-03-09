@@ -1,9 +1,14 @@
 import { combineReducers, configureStore } from '@reduxjs/toolkit';
 import userReducer from './user/userSlice.js';
+import universityReducer from './university/universitySlice.js';
+import sessionReducer from './session/sessionSlice.js'
+import courseReducer from './course/courseSlice.js'
+import centerReducer from './center/centerSlice.js'
 import { persistReducer, persistStore } from 'redux-persist';
 import storage from 'redux-persist/lib/storage';
 
-const rootReducer = combineReducers({ user: userReducer });
+
+const rootReducer = combineReducers({ user: userReducer ,university:universityReducer,session:sessionReducer,course:courseReducer,center:centerReducer});
 
 const persistConfig = {
   key: 'root',
@@ -19,6 +24,7 @@ export const store = configureStore({
     getDefaultMiddleware({
       serializableCheck: false,
     }),
+    devTools:true
 });
 
 export const persistor = persistStore(store);

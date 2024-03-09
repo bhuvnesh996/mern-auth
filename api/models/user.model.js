@@ -21,6 +21,19 @@ const userSchema = new mongoose.Schema(
       default:
         'https://img.freepik.com/premium-vector/man-avatar-profile-picture-vector-illustration_268834-538.jpg',
     },
+    userType: {
+      type: String,
+      enum : ['user','admin'],
+      default: 'user'
+    },
+
+       // Reference to Center schema
+    center: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Center',
+    },
+    
+    
   },
   { timestamps: true }
 );

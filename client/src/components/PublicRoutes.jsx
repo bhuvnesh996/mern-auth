@@ -2,7 +2,7 @@ import {useSelector} from 'react-redux'
 import { Outlet, Navigate } from 'react-router-dom'
 import Header from './Header'
 
-export default function PrivateRoute() {
+export default function PublicRoute() {
     const {currentUser} = useSelector(state => state.user)
-  return currentUser ? <> <Header /> <Outlet/> </> : <Navigate to='/sign-in'/>
+  return currentUser ?  <Navigate to='/'/> : <Outlet/>  
 }
