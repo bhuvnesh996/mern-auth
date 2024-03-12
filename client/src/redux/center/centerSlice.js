@@ -211,7 +211,7 @@ const initialState = {
                 })
                 .addCase(assignUniversity.rejected,(state,action)=>{
                     state.unAssignedLoading = false
-                    state.unAssignedError =  action.error.message;
+                    state.unAssignedError =  action.error
                 })
                 .addCase(createAssignUniversity.pending,(state)=>{
                   state.loading= true

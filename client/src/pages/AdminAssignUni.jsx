@@ -43,7 +43,7 @@ export default function AdminAssignUni() {
         {searchloading ? (
           <Loader />
         ) : (
-          data.message ? (
+          !Array.isArray(data) ? (
             <div className='flex justify-center items-middle m-10 p-10 text-red-700'>
               No data found on this center code
             </div>
