@@ -8,9 +8,10 @@ import User from "../models/user.model.js";
 
 export const CreateUniversity = async(req,res,next)=>{
     try{
-        const {universityName,univserityShortName,vertical,address, UniLogo } = req.body
-        const newUni = await University.create({universityName,univserityShortName,vertical,address, UniLogo})
+        const {universityName,univserityShortName,vertical,address, UniLogo,UniversityCode } = req.body
+        const newUni = await University.create({universityName,univserityShortName,vertical,address, UniLogo,UniversityCode})
         await newUni.save();
+
         res.status(201).json({ message: 'University created successfully' });
     }catch(error){
         next(error)
@@ -22,7 +23,7 @@ export const CreateUniversity = async(req,res,next)=>{
 export const FetchUniversity = async (req,res,next) =>{
     try{
         const FetchUniversity = await University.find({})
-        console.log("check me ")
+        console.log("check me ",FetchUniversity)
         if(!FetchUniversity){
             res.status(500).json({message:'No Data Found'})
         }
@@ -40,7 +41,7 @@ export const DeleteUniversity = async (req,res,next)=>{
         }
         try {
         await University.findByIdAndDelete(req.params.id)
-        res.status(200).json('University has been deleted...');
+        res.status(200).json(req.params.id);
     }catch(error){
         next(error)
     }
@@ -81,7 +82,7 @@ export const UniversitySessionDelete = async (req,res,next) =>{
         const id =  req.params.id
         await Session.findByIdAndDelete(id) 
         const session = await Session.find({}).populate('university')
-        res.status(201).json(session)
+        res.status(201).json(id)
 
     }catch(error){
         next(error)
@@ -268,5 +269,110 @@ const centerId = req.params.id;
   } catch (err) {
     console.error("Error deleting center:", err);
     res.status(500).json({ error: "Internal server error" });
+  }
+}
+
+export const searchCenter = async(req,res,next)=>{
+    try {
+        const { CenterCode } = req.query;
+    
+        if (!CenterCode) {
+          return res.status(400).json({ message: 'CenterCode is required' });
+        }
+    
+        const centers = await Center.findOne({ CenterCode: CenterCode }).populate('AssignUniversity.university');
+    
+        if (!centers) {
+          return next(errorHandler(401, 'No center found'));
+        }
+    
+        // If centers found, return them
+        console.log("Cetnter",centers)
+        res.json(centers);
+      } catch (error) {
+      
+        next(error)
+      }
+}
+
+export const unassignedUniversityCenter = async (req, res, next) => {
+  try {
+    // Extract centerId from request parameters
+    const centerId = req.params.id;
+    console.log("hi i am here", centerId);
+
+    // Find the center by its ID
+    const center = await Center.findById({ _id: centerId });
+    console.log("found a center", center);
+
+    if (!center) {
+      return res.status(500).json({ message: "No center found" });
+    }
+
+    // Check if AssignUniversity is not defined or is empty
+    if (!center.AssignUniversity || center.AssignUniversity.length === 0) {
+      // If there are no assigned universities, return all universities
+      const allUniversities = await University.find({});
+      return res.json(allUniversities);
+    }
+
+    // Get assigned universities' IDs from the center
+    const assignedUniversityIds = center.AssignUniversity.map(
+      (item) => item.university
+    );
+
+    // Find unassigned universities by excluding assigned ones
+    const unassignedUniversities = await University.find({
+      _id: { $nin: assignedUniversityIds },
+    });
+
+    // Return the unassigned universities
+    res.json(unassignedUniversities);
+  } catch (error) {
+    console.error(error);
+    next(error);
+  }
+};
+
+export const assignUniversityCreate = async(req,res,next)=>{
+  try{
+    const { centerId, universityId, commissionPercentage } = req.body;
+
+    // Find the center by its ID
+
+    const center = await Center.findById(centerId);
+    console.log("show center is not found ",center)
+
+    if (!center) {
+        return res.status(404).json({ success: false, message: 'Center not found' });
+    }
+
+    // Add the university to the assignUniversity array
+       center.AssignUniversity.push({
+        university: universityId,
+        commissionPercentage: commissionPercentage
+    });
+
+    // Save the updated center
+    await center.save();
+    res.status(200).json(center);
+  }catch(error){
+  next(error)
+  }
+
+}
+export const deleteAssignedUniversity = async(req,res,next)=>{
+  try{
+      const {centerID,AssignUniversityID} = req.body 
+      const center =  await Center.findById(centerID)
+      
+      if (!center) {
+      return res.status(404).json({ success: false, message: 'Center not found' });
+    }
+    center.AssignUniversity.filter((item)=>item._id !== AssignUniversityID)
+    await  center.save()
+    res.status(200).json(center);
+  }catch(error){
+    next(error)
   }
 }

@@ -42,6 +42,21 @@ export const createSession = createAsyncThunk(
     }
     
 )
+export const deleteMySession = createAsyncThunk(
+    'Session/delete',
+    async (sessionID)=>{
+        const res= await fetch(`/api/admin/university/session/delete/${sessionID}`, {
+            method: 'DELETE',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            
+          });
+          const data = await res.json();
+          return data
+    }
+)
+
 
   const sessionSlice = createSlice({
     name:"session",
@@ -73,24 +88,35 @@ export const createSession = createAsyncThunk(
         builder.addCase(fetchSession.pending,(state)=>{
             state.loading = true 
         })
-        builder.addCase(fetchSession.fulfilled,(state,action)=>{
+      .addCase(fetchSession.fulfilled,(state,action)=>{
             state.loading = false
             state.Session = action.payload
         })
-        builder.addCase(fetchSession.rejected,(State,action)=>{
+        .addCase(fetchSession.rejected,(state,action)=>{
             state.error = action.payload
             state.loading = false
         })
-        builder.addCase(createSession.pending,(state)=>{
+        .addCase(createSession.pending,(state)=>{
             state.loading = true
         })
-        builder.addCase(createSession.fulfilled,(state,action)=>{
+        .addCase(createSession.fulfilled,(state,action)=>{
             state.loading = false
             state.Session =  action.payload
         })
-        builder.addCase(createSession.rejected,(state,action)=>{
+        .addCase(createSession.rejected,(state,action)=>{
             state.loading = false 
             state.error = action.payload
+        })
+        .addCase(deleteMySession.pending,(state)=>{
+            state.loading = true;
+        })
+        .addCase(deleteMySession.fulfilled,(state,action)=>{
+            state.loading = false 
+            state.Session = state.Session?.filter(session => session._id !== action.payload);
+        })
+        .addCase(deleteMySession.rejected,(state,action)=>{
+            state.loading =  false
+            state.error =  action.error.message
         })
     }
   })

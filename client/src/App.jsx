@@ -28,6 +28,9 @@ import Dashboard from './pages/User/Dashboard';
 import UserLayout from './components/Layout/UserLayout';
 import { Children } from 'react';
 import AdminLayout from './components/Layout/AdminLayout';
+import AdminAssignUni from './pages/AdminAssignUni';
+import ChangeUniversity from './pages/User/ChangeUniversity';
+import AdminNews from './pages/AdminNews';
 
 export default function App() {
   const { currentUser } = useSelector((state) => state.user);
@@ -88,6 +91,8 @@ export default function App() {
           <Route path = '/admin/session/create' element ={<AdminSessionCreate />} />
           <Route path='/admin/course' element ={<AdminCourse />} />
           <Route path = '/admin/course/create' element = {<AdminCourseCreate />} />
+          <Route path='/admin/university/assign' element = {<AdminAssignUni />} />
+          <Route path='/admin/news' element = {<AdminNews/>} />
         </Route> : null
       } 
 
@@ -95,6 +100,8 @@ export default function App() {
           <Route element={<UserLayout />}>
             <Route path='/user/profile' element={<Profile />} />,
             <Route path = "/user/dashboard" element ={<Dashboard />} />
+            <Route path = "/user/changeUniversity" element ={<ChangeUniversity />} />
+
           </Route> : null
       }
 

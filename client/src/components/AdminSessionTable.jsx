@@ -20,7 +20,7 @@ import {
 } from "@material-tailwind/react";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { SessionCreateFail, SessionCreateStart, SessionCreateSuccess, deleteSessionStart,deleteSessionEnd } from "../redux/session/sessionSlice";
+import { SessionCreateFail, SessionCreateStart, SessionCreateSuccess, deleteSessionStart,deleteSessionEnd, deleteMySession } from "../redux/session/sessionSlice";
 import { Select, Option } from "@material-tailwind/react";
 import { getAllUniversity } from "../redux/university/universitySlice";
 import { useNavigate } from "react-router-dom";
@@ -48,6 +48,7 @@ const TABLE_HEAD = ["University", "Session", , "Status", "action"];
   
  
 export default function AdminSessionTable({session}) {
+  const University = useSelector (state=>state?.center?.unAssigned)
   const dispatch = useDispatch()
   const SessionLoading =  useSelector(state=>state?.session?.loading)
   const [showAddMemberPopup, setShowAddMemberPopup] = useState(false);
@@ -71,21 +72,8 @@ export default function AdminSessionTable({session}) {
   
   const  handleConfirmDelete =async () =>{
    
-    dispatch(deleteSessionStart())
-    const res= await fetch(`/api/admin/university/session/delete/${sessionID}`, {
-      method: 'DELETE',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      
-    });
-    const data = await res.json();
-    if (data.success === false) {
-      dispatch(deleteSessionEnd(data));
-    } else {
-      setOpenDeleteDialog(false)
-      navigate('/admin/university')
-    }
+    dispatch(deleteMySession(sessionID))
+    setOpenDeleteDialog(false)
   }
  
 
@@ -182,7 +170,7 @@ export default function AdminSessionTable({session}) {
                             color="blue-gray"
                             className="font-normal"
                           >
-                            {university.universityName}
+                            {university?.universityName}
                           </Typography>
                   
                         </div>

@@ -2,7 +2,7 @@ import React from 'react';
 import { useDispatch } from 'react-redux';
 import { signOut } from '../redux/user/userSlice';
 import { Outlet } from 'react-router-dom';
-
+import Logo from '../public/Images/Logo.jpg'
 const AdminNav = () => {
     const dispatch =  useDispatch()
     const handleSignOut = async () => {
@@ -15,17 +15,13 @@ const AdminNav = () => {
       };
   return (
     <div>
-    <nav className="bg-gray-900 p-4">
+    <nav className="bg-sidebar-image bg-cover bg-center p-4">
       <div className="container mx-auto flex justify-between items-center">
-        <h1 className="text-white text-lg font-semibold">Admin Dashboard</h1>
+       
+        <img className='w-[100px] h-[30px]'  src={Logo} />
         {/* Add your navigation links here */}
         <ul className="flex space-x-4">
-          <li>
-            <a href="#" className="text-white hover:text-gray-300">Home</a>
-          </li>
-          <li>
-            <a href="#" className="text-white hover:text-gray-300">About</a>
-          </li>
+       
           <li>
             <a href="#" className="text-white hover:text-gray-300" onClick={handleSignOut}>Logout</a>
           </li>

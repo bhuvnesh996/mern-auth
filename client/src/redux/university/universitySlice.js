@@ -13,16 +13,36 @@ export const getAllUniversity = createAsyncThunk(
             },
             
           });
+
           const data = await res.json()
+          console.log("my all University",data)
           return data
     }
   )
 
+  export const deletMyUniversity = createAsyncThunk(
+    'University/delete',
+    async (selectedUniversityId)=>{
+      const res= await fetch(`/api/admin/university/delete/${selectedUniversityId}`, {
+        method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        
+      });
+      const data = await res.json()
+      console.log("my all University",data)
+      return data
+    }
+  )
 
 const initialState = {
     University: null,
     loading: false,
     error: false,
+    deleteError :null,
+    deleteLoading: false,
+
   };
 
   const universitySlice = createSlice({
@@ -35,6 +55,7 @@ const initialState = {
         },deleteUniversitySuccess:(state,action) =>{
             state.loading = false , 
             state.error = false,
+            console.log("delete Success",action.payload)
             state.University =  action.payload
         },deleteUniversityFail:(state,action)=>{
             state.loading=false,
@@ -46,15 +67,29 @@ const initialState = {
         builder.addCase(getAllUniversity.pending, (state) => {
             state.loading = true
           })
-        builder.addCase(getAllUniversity.fulfilled,(state,action)=>{
+        .addCase(getAllUniversity.fulfilled,(state,action)=>{
             state.loading = false
             console.log("action",action)
             console.log("action payload ",action.payload)
             state.University = action.payload
+            // state.University = state.University?.filter(uni => uni._id !== action.payload);
+           
         })
-        builder.addCase(getAllUniversity.rejected,(state,action)=>{
+        .addCase(getAllUniversity.rejected,(state,action)=>{
             state.loading = false 
             state.error = action.payload
+        })
+        .addCase(deletMyUniversity.pending,(state)=>{
+            state.deleteLoading = true;
+        })
+        .addCase(deletMyUniversity.fulfilled,(state,action)=>{
+          state.deleteLoading =  false
+          console.log("check state",action.payload)
+          state.University = state.University?.filter(uni => uni._id !== action.payload);
+        })
+        .addCase(deletMyUniversity,(state,action)=>{
+            state.deleteError = action.error.message;
+            state.deleteLoading = false
         })
     },
   })
