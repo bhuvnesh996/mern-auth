@@ -136,7 +136,7 @@ export default function AdminCourseTable() {
             </tr>
           </thead>
           <tbody>
-            {course &&  course.map(
+            {  Array.isArray(course)  ?  course?.map(
               ({ _id, name, specializations, university,isActive,graducationLevel }, index) => {
                 const isLast = index === course.length - 1;
                 const classes = isLast
@@ -218,7 +218,7 @@ export default function AdminCourseTable() {
                   </tr>
                 );
               },
-            )}
+            ): <Loader /> }
           </tbody>
         </table>
       </CardBody>
