@@ -1,6 +1,6 @@
 import express from 'express';
 import { verifyAdmin } from '../utils/verifyAdmin.js';
-import { CreateUniversity, DeleteUniversity, FetchUniversity, UniversitySessionCreate, UniversitySessionDelete, UniversitySessionGet, UniversitySessionUpdate, allCenter, createCourseAndLinkToUniversity, deleteCenterWithRelatedUser, deleteCoursesWithRelatedUniversity, getAllCoursesWithUniversity, onBoardingCenter } from '../controllers/admin.controller.js';
+import { CreateUniversity, DeleteUniversity, FetchUniversity, UniversitySessionCreate, UniversitySessionDelete, UniversitySessionGet, UniversitySessionUpdate, allCenter, assignUniversityCreate, createCourseAndLinkToUniversity, deleteAssignedUniversity, deleteCenterWithRelatedUser, deleteCoursesWithRelatedUniversity, getAllCoursesWithUniversity, onBoardingCenter, searchCenter, unassignedUniversityCenter } from '../controllers/admin.controller.js';
 
 const router = express.Router();
 
@@ -23,6 +23,10 @@ router.delete('/university/course/delete/:id',deleteCoursesWithRelatedUniversity
 router.post('/university/center/create',onBoardingCenter)
 router.get('/university/center/all',allCenter)
 router.delete('/university/center/delete/:id',deleteCenterWithRelatedUser)
+router.get('/center/search',searchCenter)
+router.get('/center/unassignedUni/:id',unassignedUniversityCenter)
+router.post('/center/assign/university',assignUniversityCreate)
+router.post('/center/delete/assignUniversity',deleteAssignedUniversity)
 
 
 

@@ -24,6 +24,9 @@ export default function AdminCourseCreate() {
     const [nameError,setNameError] = useState()
     const [SpecializationError,setSpecializationError] = useState("")
     const [priceError,setPriceError] = useState("") 
+    const [shortName,setShortName] = useState("")
+    const [duration,setDuration] = useState(0)
+    const [semester,setSemester] = useState(0)
 
     const dispatch = useDispatch()
     useEffect(()=>{
@@ -34,14 +37,17 @@ export default function AdminCourseCreate() {
         e.preventDefault();
         setNameError("")
         setSpecializationError("")
-        setPriceError("")
+       
 
         const data= { 
             name:name,
             specializations:values,
             university:selectedUniversity._id,
             graducationLevel:graduationType,
-            price:price
+            shortName:shortName,
+            duration:duration,
+            semester:semester,
+            eligibility:checkedValues
         }
         if(name?.length ===0){
             console.log("in error")
@@ -85,6 +91,17 @@ export default function AdminCourseCreate() {
     const handleChange = (e) => {
       setInputValue(e.target.value);
     };
+    const handleShortNameChange = (e) => {
+        setShortName(e.target.value);
+      };
+      
+      const handleDurationChange = (e) => {
+        setDuration(parseInt(e.target.value)); // Convert the input value to an integer
+      };
+      
+      const handleSemesterChange = (e) => {
+        setSemester(parseInt(e.target.value)); // Convert the input value to an integer
+      };
   
     const handleAdd = () => {
       if (inputValue.trim() !== '') {
@@ -97,8 +114,20 @@ export default function AdminCourseCreate() {
       setValues(values.filter((_, i) => i !== index));
     };
 
+    const [checkedValues, setCheckedValues] = useState([]);
 
-    
+    const handleCheckboxChange = (value) => {
+        // Check if the checkbox is already checked
+        if (checkedValues.includes(value)) {
+            // If it is checked, remove it from the array
+            setCheckedValues(checkedValues.filter(item => item !== value));
+        } else {
+            // If it is not checked, add it to the array
+            setCheckedValues([...checkedValues, value]);
+        }
+        
+    };
+    console.log("check value",checkedValues)
   return (
     <div  className="PageContainer">
          <span>Create COURSE</span>
@@ -155,16 +184,124 @@ export default function AdminCourseCreate() {
                     <Select defaultValue={graduationType} onChange={event=>handleGradType(event)} >
                         <Option value ="PG">PG</Option>
                         <Option value="UG"> UG</Option>
+                        <Option value="Diploma"> Diploma</Option>
+                        <Option value="Diploma"> PG/Diploma</Option>
                     </Select>
                  
                 </div>
                 <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
                     <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-first-name">
-                        Price
+                        Short Name
                     </label>
-                    <input value={price} onChange={handlePrice} class="appearance-none block w-full bg-gray-200 text-gray-700 border border-red-500 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white" id="grid-first-name" type="text" placeholder="Jane"/>
-                    <p class="text-red-500 text-xs italic">{priceError}</p>
+                    <input value={shortName} onChange={handleShortNameChange} class="appearance-none block w-full bg-gray-200 text-gray-700 border border-red-500 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white" id="grid-first-name" type="text" placeholder="Jane"/>
+               
                 </div>
+                <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+                    <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-first-name">
+                        Duration
+                    </label>
+                    <input value={duration} onChange={handleDurationChange} 
+                    class="appearance-none block w-full bg-gray-200 text-gray-700 border border-red-500 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white" 
+                    id="grid-first-name" 
+                    type="number" placeholder="Duration"/>
+                 
+                </div>
+                <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+                    <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-first-name">
+                        Number of sem
+                    </label>
+                    <input value={semester} onChange={handleSemesterChange} 
+                    class="appearance-none block w-full bg-gray-200 text-gray-700 border border-red-500 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white" 
+                    id="grid-first-name" type="number" placeholder="Number of semester"/>
+                    
+                </div>
+                <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0 block">
+                    <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-first-name">
+                        Eligibility criteria
+                    </label>
+                    <div className='grid grid-cols-2 gap-1'>
+                        <div className='flex flex-row justify-start items-center'>
+                            <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold" for="grid-first-name">
+                                High School (10th)
+                            </label>
+                            <div className="flex-grow"></div>
+                            <input 
+                            id="high-school"
+                            className="ml-2" 
+                            type='checkbox'
+                            onChange={() => handleCheckboxChange('high-school')}
+                            checked={checkedValues.includes('high-school')}
+                            />
+                        </div>
+                        <div className='flex flex-row justify-start'>
+                            <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold" for="grid-first-name">
+                                Inter
+                            </label>
+                            <div className="flex-grow"></div>
+                            <input 
+                            id='Inter'
+                            className="ml-2" 
+                            type='checkbox' 
+                            onChange={() => handleCheckboxChange('Inter')}
+                            checked={checkedValues.includes('Inter')}
+                            />
+                        </div>
+                        <div className='flex flex-row justify-start'>
+                            <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold" for="grid-first-name">
+                                Diploma
+                            </label>
+                            <div className="flex-grow"></div>
+                            <input
+                             id='Diploma'
+                             className="ml-2" 
+                             onChange={() => handleCheckboxChange('Diploma')}
+                             checked={checkedValues.includes('Diploma')}
+                             type='checkbox' />
+                        </div>
+                        <div className='flex flex-row justify-start'>
+                            <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold" for="grid-first-name">
+                                UG
+                            </label>
+                            <div className="flex-grow"></div>
+                            <input 
+                            id="UG"
+                            className="ml-2" 
+                            type='checkbox'
+                            onChange={() => handleCheckboxChange('UG')}
+                            checked={checkedValues.includes('UG')}
+                            />
+                        </div>
+                        <div className='flex flex-row justify-start'>
+                            <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold" for="grid-first-name">
+                                PG
+                            </label>
+                            <div className="flex-grow"></div>
+                            <input 
+                            id="PG"
+                            className="ml-2" 
+                            type='checkbox'
+                            onChange={() => handleCheckboxChange('PG')}
+                            checked={checkedValues.includes('PG')}
+                            />
+                        </div>
+                        <div className='flex flex-row justify-start'>
+                            <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold" for="grid-first-name">
+                                other
+                            </label>
+                            <div className="flex-grow"></div>
+                            <input 
+                            id="other"
+                            className="ml-2" 
+                            type='checkbox' 
+                            onChange={() => handleCheckboxChange('other')}
+                            checked={checkedValues.includes('other')}
+                            />
+                        </div>
+
+                       
+                    </div>
+                </div>
+                
         
            
             </div>

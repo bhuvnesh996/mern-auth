@@ -1,7 +1,5 @@
 import { MagnifyingGlassIcon,TrashIcon } from "@heroicons/react/24/outline";
 import { PencilIcon, UserPlusIcon } from "@heroicons/react/24/solid";
-
-
 import {
   Card,
   CardHeader,
@@ -18,11 +16,14 @@ import {
   IconButton,
   Tooltip,
 } from "@material-tailwind/react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { deletMyUniversity, deleteUniversityFail, deleteUniversityStart, deleteUniversitySuccess } from "../redux/university/universitySlice";
+import { deleteUniversityFail, deleteUniversityStart, deleteUniversitySuccess } from "../redux/university/universitySlice";
 import { DeletePopUp } from "./DeletePopUp";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { assignUniversity, deleteCenter, fetchCenter } from "../redux/center/centerSlice";
+import Loader from "./Loader";
+import PopUpFrom from "./UI/PopUpFrom";
  
 const TABS = [
   {
@@ -39,41 +40,31 @@ const TABS = [
   },
 ];
  
-const TABLE_HEAD = ["University", "ShortName", "Vertical", "Dealing With", "address", "status",""];
+const TABLE_HEAD = ["University Name", "Short Name", "Vertical", "Address","status","Action"];
 
  
-export default function UniTable({university}) {
-  
-  const dispatch = useDispatch()
-  const navigate = useNavigate()
-  
-  const [openDeleteDialog, setOpenDeleteDialog] = useState(false);
-  const [selectedUniversityId, setSelectedUniversityId] = useState(null);
-  const handleDelete = async (e, id) => {
-    e.preventDefault();
-    setSelectedUniversityId(id);
-    console.log(id)
-    
-    setOpenDeleteDialog(true);
-  };
-  const  handleConfirmDelete =async () =>{
-    console.log("my hit delete",selectedUniversityId)
-    dispatch(deletMyUniversity(selectedUniversityId))
-    setOpenDeleteDialog(false)
-  }
- 
+export default function AdminAssignedUniTable({centerID, university}) {
+    const [open,setOpen] = useState(false)
+    const dispatch = useDispatch()
+    const University = useSelector (state=>state?.center?.unAssigned)
+    const handleClose = ()=>{
+      setOpen(false)
+    }
+    useEffect(()=>{
+        dispatch(assignUniversity(centerID))
+    },[])
+   
+    const center = []
   return (
     
     <Card className="h-full w-full">
       <DeletePopUp 
-        open={openDeleteDialog}
-        onClose={() => setOpenDeleteDialog(false)}
-        onConfirm={handleConfirmDelete}/>
+     />
       <CardHeader floated={false} shadow={false} className="rounded-none">
         <div className="mb-8 flex items-center justify-between gap-8">
           <div>
             <Typography variant="h5" color="blue-gray">
-              University list
+              Assign University
             </Typography>
             <Typography color="gray" className="mt-1 font-normal">
               See information about all University
@@ -83,10 +74,13 @@ export default function UniTable({university}) {
             <Button variant="outlined" size="sm">
               view all
             </Button>
-            <Button className="flex items-center gap-3" size="sm" onClick={e=>navigate('/admin/university/add')}>
-              <UserPlusIcon strokeWidth={2} className="h-4 w-4" /> Add University
+            <Button className="flex items-center gap-3" size="sm"  onClick={() => setOpen(true)} >
+              <UserPlusIcon strokeWidth={2} className="h-4 w-4" /> Assign University
             </Button>
-          </div>
+            {
+             Array.isArray(University) ?  < PopUpFrom centerID={centerID} open={open} handleClose={handleClose} University = {University} />
+              : <Loader />
+                          }             </div>
         </div>
         <div className="flex flex-col items-center justify-between gap-4 md:flex-row">
           <Tabs value="all" className="w-full md:w-max">
@@ -127,25 +121,25 @@ export default function UniTable({university}) {
             </tr>
           </thead>
           <tbody>
-            {university?.map(
-              ({  _id,UniLogo, universityName, univserityShortName, status, address, vertical, DealingWith }, index) => {
+            {!university || Array.isArray(!university) ? <Loader /> : university?.map(
+              ({ university,commissionPercentage}, index) => {
                 const isLast = index === university?.length - 1;
                 const classes = isLast
                   ? "p-4"
                   : "p-4 border-b border-blue-gray-50";
  
                 return (
-                  <tr key={universityName}>
+                  <tr key={index}>
                     <td className={classes}>
                       <div className="flex items-center gap-3">
-                        <Avatar src={UniLogo} alt={universityName} size="sm" />
+                       
                         <div className="flex flex-col">
                           <Typography
                             variant="small"
                             color="blue-gray"
                             className="font-normal"
                           >
-                            {universityName}
+                            {university.universityName}
                           </Typography>
                          
                         </div>
@@ -158,7 +152,7 @@ export default function UniTable({university}) {
                           color="blue-gray"
                           className="font-normal"
                         >
-                          {univserityShortName}
+                          {university.univserityShortName}
                         </Typography>
                        
                       </div>
@@ -170,7 +164,7 @@ export default function UniTable({university}) {
                           color="blue-gray"
                           className="font-normal"
                         >
-                          {vertical}
+                          {university.vertical}
                         </Typography>
                        
                       </div>
@@ -181,7 +175,7 @@ export default function UniTable({university}) {
                         color="blue-gray"
                         className="font-normal"
                       >
-                        {DealingWith}
+                        {university.address}
                       </Typography>
                     </td>
                     <td className={classes}>
@@ -193,21 +187,19 @@ export default function UniTable({university}) {
                           color={status ==="check" ? "green" : "blue-gray"}
                         /> */}
                           <Typography
-                        variant="small"
-                        color="blue-gray"
-                        className="font-normal"
-                      >
-                        {address}
-                      </Typography>
+                            variant="small"
+                            color="blue-gray"
+                            className="font-normal"
+                            >
+                            {university.status}
+                        </Typography>
                       </div>
                     </td>
+        
+         
                 
                     <td className={classes}>
-                      <Tooltip content="Edit User">
-                        <IconButton variant="text">
-                          <PencilIcon className="h-4 w-4" />
-                        </IconButton>
-                      </Tooltip>
+                    
                       <Tooltip content="Edit User">
                         <IconButton  onClick={e=>handleDelete(e,_id)} variant="text">
                           <TrashIcon  className="h-4 w-4" />

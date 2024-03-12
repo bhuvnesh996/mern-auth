@@ -1,6 +1,7 @@
 import User from '../models/user.model.js';
 import { errorHandler } from '../utils/error.js';
 import bcryptjs from 'bcryptjs';
+import Center from "../models/center.model.js";
 
 export const test = (req, res) => {
   res.json({
@@ -54,3 +55,21 @@ export const deleteUser = async (req, res, next) => {
   }
 }
 
+
+
+
+export const getCenterUniversity = async (req,res,next) =>{
+  try{
+    const { id} =  req.params
+    console.log("idiidiid",req.params)
+    const center = await Center.findById(id).populate('AssignUniversity.university');
+    // console.log("ceter center ",center.json())
+    if (!center) {
+      return res.status(404).json({ message: "Center not found" });
+    }
+    res.status(200).json(center)
+  }
+  catch(error){
+    next(error)
+} 
+}

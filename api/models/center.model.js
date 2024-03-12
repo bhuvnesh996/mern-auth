@@ -74,7 +74,18 @@ const centerSchema = new mongoose.Schema(
     VistOffice : {
         type:String,
         required:true
-    }
+    },
+    AssignUniversity: [{
+      university: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'University'
+      },
+      commissionPercentage: {
+        type: Number,
+        required: true,
+        default: 0 // Default commission percentage
+      }
+    }]
 
 
 

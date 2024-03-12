@@ -12,7 +12,7 @@ export default function UserLayout({ children }) {
   return (
     <div className=' h-screen'>
       {/* Sidebar */}
-      <div className= 'flex w-full h-full bg-[#9F70FD] text-white'>
+      <div className= 'flex w-full h-full bg-[#130B68] text-white'>
                 
         {/* Sidebar content */}
               <div className="w-[250px]" >
@@ -23,32 +23,32 @@ export default function UserLayout({ children }) {
                         
                         {/* Sidebar links */}
                         <ul className="py-2 mt-4 flex flex-col justify-around h-96">
-                            <li className= { location.pathname ==='/user/dashboard' ?"px-4 py-2 text-gray-200 bg-[#FF8911]":"px-4 py-2 text-gray-200 hover:bg-gray-700" }>
+                            <li className= { location.pathname ==='/user/dashboard' ?"px-4 py-2 text-gray-200 bg-[#FF8911]":"px-4 py-2 text-gray-200 hover:bg-[#FF8911]-700" }>
                                 <Link to="/user/dashboard" className={location.pathname === '/user/dashboard' ? 'bg-white-700 font-bold' : 'text-white'}>
                                   <HiOutlineHome className="h-6 w-6 inline mr-2" />
                                   Dashboard
                                 </Link>
                             </li>
-                            <li className="px-4 py-2 text-gray-200 hover:bg-gray-700">
-                                <Link to="">
+                            <li className={ location.pathname ==='/user/changeUniversity' ?"px-4 py-2 text-gray-200 bg-[#FF8911]":"px-4 py-2 text-gray-200 hover:bg-[#FF8911]-700"}>
+                                <Link to="/user/changeUniversity">
                                     <FaUniversity className="h-6 w-6 inline mr-2" />
                                     Change University
                                 </Link>
                             </li>
-                            <li className="px-4 py-2 text-gray-200 hover:bg-gray-700">
+                            <li className="px-4 py-2 text-gray-200 hover:bg-[#FF8911]">
                                 <Link to="">
                                     <SiSessionize className="h-6 w-6 inline mr-2" />
                                     Promotion Items
                                 </Link>
                             </li>
-                            <li className="px-4 py-2 text-gray-200 hover:bg-gray-700">
+                            <li className="px-4 py-2 text-gray-200 hover:bg-[#FF8911]">
                                 <Link to="">
                                     <FaBookJournalWhills className="h-6 w-6 inline mr-2" />
                                     Download Content
                                     {/* {!isOpen && <FaBookJournalWhills className='mr-45'/>} */}
                                 </Link>
                             </li>
-                            <li className="px-4 py-2 text-gray-200 hover:bg-gray-700">
+                            <li className="px-4 py-2 text-gray-200 hover:bg-[#FF8911]">
                                 <Link to="">
                                     <HiOutlineUser className="h-6 w-6 inline mr-2" />
                                     Ticket Genrate
@@ -65,7 +65,7 @@ export default function UserLayout({ children }) {
       {/* Main Content */}
       <div className='flex flex-col w-full bg-gray-200 relative'>
         {/* Navigation */}
-        <nav className='bg-[#9F70FD] h-[80px] p-4'>
+        <nav className='bg-[#130B68] h-[80px] p-4'>
           <ul className='pt-2 flex justify-between items-center align-middle'>
             <li className='mx-4'>
                 <input placeholder='seach' />

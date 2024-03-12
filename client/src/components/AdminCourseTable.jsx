@@ -16,13 +16,14 @@ import {
     Avatar,
     IconButton,
     Tooltip,
+    Switch,
   } from "@material-tailwind/react";
 import { useDispatch, useSelector } from 'react-redux';
 import { DeleteCourse, fetchCourse } from '../redux/course/courseSlice';
 import { useNavigate } from 'react-router-dom';
 import Loader from './Loader';
 import { DeletePopUp } from './DeletePopUp';
-  const TABLE_HEAD = ["Name", "Specialization", , "Universtiy", "Graduation Level",""];
+  const TABLE_HEAD = ["Name", "Specialization", , "Universtiy", "Graduation Level","status",""];
   const TABS = [
     {
       label: "All",
@@ -136,7 +137,7 @@ export default function AdminCourseTable() {
           </thead>
           <tbody>
             {course &&  course.map(
-              ({ _id, name, specializations, university,price,graducationLevel }, index) => {
+              ({ _id, name, specializations, university,isActive,graducationLevel }, index) => {
                 const isLast = index === course.length - 1;
                 const classes = isLast
                   ? "p-4"
@@ -193,6 +194,16 @@ export default function AdminCourseTable() {
                       >
                         
                         {graducationLevel}
+                      </Typography>
+                    </td>
+                    <td className={classes}>
+                      <Typography
+                        variant="small"
+                        color="blue-gray"
+                        className="font-normal"
+                      >
+                        
+                        <Switch color="blue" defaultChecked={isActive ? true :false}  />
                       </Typography>
                     </td>
                 

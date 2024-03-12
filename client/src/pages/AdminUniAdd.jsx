@@ -9,6 +9,7 @@ import {
   import { app } from '../firebase';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
+import Snackbar from '../components/UI/SnackBar';
 
 export default  function AdminUniAdd() {
     const [error, setError] = useState(false);
@@ -20,6 +21,9 @@ export default  function AdminUniAdd() {
     const [imageError, setImageError] = useState(false);
     const [formData, setFormData] = useState({});
     const [updateSuccess, setUpdateSuccess] = useState(false);
+    const [snackbarOpen, setSnackbarOpen] = useState(false);
+    const [snackbarMessage, setSnackbarMessage] = useState('');
+    const [snackbarSeverity, setSnackbarSeverity] = useState('success');
     const navigate = useNavigate()
     const handleChange = (e) => {
         setFormData({ ...formData, [e.target.id]: e.target.value });
@@ -54,7 +58,7 @@ export default  function AdminUniAdd() {
       };
       const handleSubmit = async (e)=>{
         e.preventDefault();
-        console.log("i am hit")
+        console.log("i am hit",formData)
             try {
             setLoading(true);
             setError(false);
@@ -72,13 +76,23 @@ export default  function AdminUniAdd() {
                 setError(true);
                 return;
             }
+            setSnackbarOpen(true);
+            setSnackbarMessage('University added successfully!');
+            setSnackbarSeverity('success');
             navigate('/admin/university');
+
             } catch (error) {
             setLoading(false);
             setError(true);
+            setSnackbarOpen(true);
+            setSnackbarMessage(error.message || 'Something went wrong');
+            setSnackbarSeverity('error');
             }
 
       }
+      const handleCloseSnackbar = () => {
+        setSnackbarOpen(false);
+    };
 
   return (
     <div className="PageContainer" >
@@ -95,10 +109,10 @@ export default  function AdminUniAdd() {
                         class="appearance-none block w-full bg-gray-200 text-gray-700 border border-red-500 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
                         id="universityName"
                         type="text" 
-                        placeholder="Jane"
+                        placeholder="University Name"
                         onChange={handleChange}
                       />
-                    <p class="text-red-500 text-xs italic">Please fill out this field.</p>
+                  
                 </div>
                 <div class="w-full md:w-1/2 px-3">
                     <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-last-name">
@@ -108,7 +122,7 @@ export default  function AdminUniAdd() {
                     class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" 
                     id="univserityShortName" 
                     type="text" 
-                    placeholder="Doe"
+                    placeholder="Short Name"
                     onChange={handleChange}
                     />
                 </div>
@@ -120,7 +134,7 @@ export default  function AdminUniAdd() {
                         class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" 
                         id="vertical" 
                         type="text"
-                        placeholder="Doe"
+                        placeholder="Vertical"
                         onChange={handleChange}
                      />
                 </div>
@@ -130,10 +144,23 @@ export default  function AdminUniAdd() {
                     </label>
                     <input 
                         class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" 
-                        id="addresss" 
+                        id="address" 
                         type="text" 
                         
-                        placeholder="Doe"
+                        placeholder="Address"
+                        onChange={handleChange}
+                    />
+                </div>
+                <div class="w-full md:w-1/2 px-3">
+                    <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-last-name">
+                        University Code
+                    </label>
+                    <input 
+                        class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" 
+                        id="UniversityCode" 
+                        type="text" 
+                        
+                        placeholder="University Code"
                         onChange={handleChange}
                     />
                 </div>
@@ -147,7 +174,7 @@ export default  function AdminUniAdd() {
                     class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" 
                     d="DealingWith"
                      type="text" 
-                     placeholder=""
+                     placeholder="Dealing With"
                      onChange={handleChange}
                      
                      />
@@ -197,7 +224,14 @@ export default  function AdminUniAdd() {
             </div>
           
             
+
         </form>
+        <Snackbar
+                open={snackbarOpen}
+                message={snackbarMessage}
+                severity={snackbarSeverity}
+                onClose={handleCloseSnackbar}
+            />
         <p className='text-red-700 mt-5'>{error && 'Something went wrong!'}</p>
     </div>
   )

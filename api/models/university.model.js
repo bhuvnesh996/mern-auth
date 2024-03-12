@@ -5,20 +5,20 @@ const uniSchema = new mongoose.Schema(
     {
         universityName:{
             type:String,
-            require:true,
+            required:true,
             
         },
         vertical:{
             type:String,
-            require:true
+            required:true
         },
         univserityShortName:{
             type:String,
-            require:true
+            required:true
         },
         address:{            
             type:String,
-            require:true
+            required:true
         },
         UniLogo:{
             type:String,
@@ -37,7 +37,12 @@ const uniSchema = new mongoose.Schema(
         course:[{
             type:mongoose.Schema.Types.ObjectId,
             ref:"Course"
-        }]
+        }],
+        UniversityCode:{
+            type:String,
+            require:true
+        }
+
         
        
     

@@ -74,7 +74,51 @@ export const deleteCenter = createAsyncThunk(
     return data
   }
 )
+export const searchCenter  = createAsyncThunk(
+  'Center/search',
+  async(CenterCode)=>{
+    console.log("center code queary",CenterCode)
+    const res =  await fetch(`/api/admin/center/search?CenterCode=${CenterCode}`,{
+      method:"GET",
+      header:{
+        'Content-Type':'application/json'
+      }
+    });
+    console.log("why reject me",res)
+    const data = await res.json()
+    console.log("datadat",data)
+    return data
+  }
+)
+export const assignUniversity = createAsyncThunk(
+  'Center/unassignedUniversity',
+  async(id)=>{
+    const res =  await fetch(`/api/admin/center/unassignedUni/${id}`,{
+      method:"GET",
+      header:{
+        'Content-Type':'application/json'
+      }
+    });
+    const data = await res.json()
+    console.log("datadat",data)
+    return data
+  }
+)
 
+export const  createAssignUniversity =  createAsyncThunk(
+  'Center/assign/University',
+  async(data)=>{
+
+      const res= await fetch('/api/admin/center/assign/university', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(data)
+  })
+      const rawdata =  res.json()
+      return  rawdata
+})
 
 const initialState = {
     Center: [],
@@ -86,6 +130,13 @@ const initialState = {
     createStatus:null,
     deleteLoading:false,
     deleteError:null,
+    searchCenter:{},
+    searchCenterError:null,
+    seacrchCenterLoading:false,
+    unAssigned:[],
+    unAssignedLoading:false,
+    unAssignedError:null,
+
     
   };
 
@@ -140,6 +191,41 @@ const initialState = {
                     console.log("my action at delete",action)
                     state.createError = action.payload
                 })
+                .addCase(searchCenter.fulfilled,(state,action)=>{
+                      state.seacrchCenterLoading = false
+                      state.searchCenter = action.payload
+                      })
+                .addCase(searchCenter.pending,(state)=>{
+                  state.seacrchCenterLoading = true
+                })
+                .addCase(searchCenter.rejected,(state,action)=>{
+                  state.searchCenterError = action 
+                  state.seacrchCenterLoading  = false
+                })
+                .addCase(assignUniversity.pending,(state)=>{
+                    state.unAssignedLoading = true;
+                })
+                .addCase(assignUniversity.fulfilled,(state,action)=>{
+                    state.unAssignedLoading = false
+                    state.unAssigned =  action.payload
+                })
+                .addCase(assignUniversity.rejected,(state,action)=>{
+                    state.unAssignedLoading = false
+                    state.unAssignedError =  action.error.message;
+                })
+                .addCase(createAssignUniversity.pending,(state)=>{
+                  state.loading= true
+                })
+                  .addCase(createAssignUniversity.fulfilled,(state,action)=>{
+                    state.loading = false 
+                    console.log("action payloadinng in my",action.payload)
+                    state.searchCenter = action.payload
+                  })
+                .addCase(createAssignUniversity.rejected,(state,action)=>{
+                    state.loading =  false 
+                    state.error =  action.error.message
+                })
+                
     }
   })
 
