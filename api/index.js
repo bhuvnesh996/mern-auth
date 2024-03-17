@@ -11,7 +11,7 @@ dotenv.config();
 const localURL = "mongodb://localhost:27017";
 const liveURL = "mongodb+srv://admin:admin@cluster0.tcjmf.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0";
 mongoose
-  .connect(localURL)
+  .connect(liveURL)
   .then(() => {
     console.log('Connected to MongoDB');
   })
