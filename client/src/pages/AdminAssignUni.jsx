@@ -69,7 +69,7 @@ export default function AdminAssignUni() {
                         </div>
                         <div className='m-2 p-2'>
                           <span class="text-sm font-medium bg-green-100 py-1 px-2 rounded text-green-500 align-middle">Center Code -</span>
-                          <span class="text-sm font-medium py-1 px-2 rounded text-red-800 align-middle">{data.CenterCode}</span>
+                          <span class="text-sm font-medium py-1 px-2 rounded text-red-800 align-middle">{data?.CenterCode}</span>
                         </div>
                         
                     </div>
