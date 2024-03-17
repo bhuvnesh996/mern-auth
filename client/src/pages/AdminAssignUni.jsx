@@ -53,19 +53,19 @@ export default function AdminAssignUni() {
                     <div className='flex flex-row'>
                         <div className='m-2 p-2'>
                             <span class="text-sm font-medium bg-green-100 py-1 px-2 rounded text-green-500 align-middle">InsitutionName -</span>
-                            <span class="text-sm font-medium py-1 px-2 rounded text-red-800 align-middle">{data.InsitutionName}</span>
+                            <span class="text-sm font-medium py-1 px-2 rounded text-red-800 align-middle">{data?.InsitutionName}</span>
                         </div> 
                         <div className='m-2 p-2'>
                           <span class="text-sm font-medium bg-green-100 py-1 px-2 rounded text-green-500 align-middle">OwnerName -</span>
-                          <span class="text-sm font-medium py-1 px-2 rounded text-red-800 align-middle">{data.OwnerName}</span>
+                          <span class="text-sm font-medium py-1 px-2 rounded text-red-800 align-middle">{data?.OwnerName}</span>
                         </div>
                         <div className='m-2 p-2'>
                           <span class="text-sm font-medium bg-green-100 py-1 px-2 rounded text-green-500 align-middle">city -</span>
-                          <span class="text-sm font-medium py-1 px-2 rounded text-red-800 align-middle">{data.city}</span>
+                          <span class="text-sm font-medium py-1 px-2 rounded text-red-800 align-middle">{data?.city}</span>
                         </div>
                         <div className='m-2 p-2'>
                           <span class="text-sm font-medium bg-green-100 py-1 px-2 rounded text-green-500 align-middle">state -</span>
-                          <span class="text-sm font-medium py-1 px-2 rounded text-red-800 align-middle">{data.state}</span>
+                          <span class="text-sm font-medium py-1 px-2 rounded text-red-800 align-middle">{data?.state}</span>
                         </div>
                         <div className='m-2 p-2'>
                           <span class="text-sm font-medium bg-green-100 py-1 px-2 rounded text-green-500 align-middle">Center Code -</span>
