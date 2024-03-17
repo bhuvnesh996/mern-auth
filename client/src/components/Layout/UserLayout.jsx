@@ -1,93 +1,40 @@
 import React from 'react';
-import { Link, Outlet, useLocation } from 'react-router-dom';
-import ProfileButton from '../UI/ProfileButton';
-import { HiOutlineCog, HiOutlineHome, HiOutlineUser } from 'react-icons/hi';
-import { FaUniversity } from 'react-icons/fa';
-import { SiSessionize } from 'react-icons/si';
-import { FaBookJournalWhills } from 'react-icons/fa6';
+import CenterLayout from './SubLayout/CenterLayout';
+import DistanceUniversityLayout from './SubLayout/DistanceUniversityLayout';
+import RegularUniversityLayout from './SubLayout/RegularUniversityLayout';
+import OnlineUniversityLayout from './SubLayout/OnlineUniversityLayout';
+import { useSelector } from 'react-redux';
 
 export default function UserLayout({ children }) {
-  const location = useLocation();
+  const selectedUniversity = useSelector(state => state.user.selectedUniversity);
+
+  let layoutComponent;
+
+  // Check if a university is selected
+  if (selectedUniversity) {
+    // If a university is selected, determine the appropriate layout component
+    switch (selectedUniversity?.university?.vertical) {
+      case "DISTANCE":
+        layoutComponent = <DistanceUniversityLayout selectedUniversity={selectedUniversity} />;
+        break;
+      case "REGULAR":
+        layoutComponent = <RegularUniversityLayout selectedUniversity={selectedUniversity} />;
+        break;
+      case "ONLINE":
+        layoutComponent = <OnlineUniversityLayout selectedUniversity={selectedUniversity} />;
+        break;
+      default:
+        // If the selected university's vertical is not recognized, render the default layout
+        layoutComponent = <CenterLayout />;
+    }
+  } else {
+    // If no university is selected, render the default layout
+    layoutComponent = <CenterLayout />;
+  }
 
   return (
-    <div className=' h-screen'>
-      {/* Sidebar */}
-      <div className= 'flex w-full h-full bg-[#130B68] text-white'>
-                
-        {/* Sidebar content */}
-              <div className="w-[250px]" >
-                <div className='h-[64px]'>
-                  <image src="https://ih1.redbubble.net/image.559072294.6412/st,small,507x507-pad,600x600,f8f8f8.jpg" />
-                  </div>
-                        {/* Logo */}
-                        
-                        {/* Sidebar links */}
-                        <ul className="py-2 mt-4 flex flex-col justify-around h-96">
-                            <li className= { location.pathname ==='/user/dashboard' ?"px-4 py-2 text-gray-200 bg-[#FF8911]":"px-4 py-2 text-gray-200 hover:bg-[#FF8911]-700" }>
-                                <Link to="/user/dashboard" className={location.pathname === '/user/dashboard' ? 'bg-white-700 font-bold' : 'text-white'}>
-                                  <HiOutlineHome className="h-6 w-6 inline mr-2" />
-                                  Dashboard
-                                </Link>
-                            </li>
-                            <li className={ location.pathname ==='/user/changeUniversity' ?"px-4 py-2 text-gray-200 bg-[#FF8911]":"px-4 py-2 text-gray-200 hover:bg-[#FF8911]-700"}>
-                                <Link to="/user/changeUniversity">
-                                    <FaUniversity className="h-6 w-6 inline mr-2" />
-                                    Change University
-                                </Link>
-                            </li>
-                            <li className="px-4 py-2 text-gray-200 hover:bg-[#FF8911]">
-                                <Link to="">
-                                    <SiSessionize className="h-6 w-6 inline mr-2" />
-                                    Promotion Items
-                                </Link>
-                            </li>
-                            <li className="px-4 py-2 text-gray-200 hover:bg-[#FF8911]">
-                                <Link to="">
-                                    <FaBookJournalWhills className="h-6 w-6 inline mr-2" />
-                                    Download Content
-                                    {/* {!isOpen && <FaBookJournalWhills className='mr-45'/>} */}
-                                </Link>
-                            </li>
-                            <li className="px-4 py-2 text-gray-200 hover:bg-[#FF8911]">
-                                <Link to="">
-                                    <HiOutlineUser className="h-6 w-6 inline mr-2" />
-                                    Ticket Genrate
-                                </Link>
-                            </li>
-                            <li className="px-4 py-2 text-gray-200 hover:bg-gray-700">
-                                <Link to="">
-                                    <HiOutlineCog className="h-6 w-6 inline mr-2" />
-                                    Help and Support
-                                </Link>
-                            </li>
-                        </ul>
-                  </div>
-      {/* Main Content */}
-      <div className='flex flex-col w-full bg-gray-200 relative'>
-        {/* Navigation */}
-        <nav className='bg-[#130B68] h-[80px] p-4'>
-          <ul className='pt-2 flex justify-between items-center align-middle'>
-            <li className='mx-4'>
-                <input placeholder='seach' />
-            </li>
-            <li className='mx-4'>
-              <Link to='/user/settings' className={location.pathname === '/user/settings' ? 'text-yellow-500 font-bold' : 'text-white'}>
-                
-              </Link>News letter
-            </li>
-            <li className='mx-4'>
-                <ProfileButton />
-              
-            </li>
-            {/* Add more navigation links as needed */}
-          </ul>
-        </nav>
-        {/* Main Content */}
-        <main className='p-4 overflow-auto h-full'>
-          <Outlet />
-        </main>
-      </div>
-    </div>
+    <div>
+      {layoutComponent}
     </div>
   );
 }

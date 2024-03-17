@@ -8,6 +8,7 @@ import { SiSessionize } from "react-icons/si";
 import { FaBookJournalWhills } from "react-icons/fa6";
 import { MdAssignmentInd } from "react-icons/md";
 import { IoNewspaperOutline } from "react-icons/io5";
+import { FaWpforms } from "react-icons/fa6";
 
 
 import { HiMenu, HiX } from 'react-icons/hi';
@@ -45,28 +46,35 @@ const AdminSidebar = () => {
                
                 {/* Sidebar links */}
                 <ul className= "py-2  mt-4">
-                    <li className="px-2 py-2 text-gray-200 hover:bg-gray-700">
+                    <li className="px-2 py-2 text-gray-200 font-bold hover:bg-white hover:text-cyan-500">
                         <Link to="/admin">
                             {isOpen && <HiOutlineHome className="h-6 w-6 inline mr-5" />}
                             {isOpen && 'Dashboard'}
                             {!isOpen && <HiOutlineHome className="h-6 w-6" />}
                         </Link>
                     </li>
-                    <li className="px-2 py-2 text-gray-200 hover:bg-gray-700">
+                    <li className="px-2 py-2 text-gray-200 font-bold hover:bg-white hover:text-cyan-500">
                         <Link to="/admin/university">
                             {isOpen && <FaUniversity className="h-6 w-6 inline mr-5" />}
                             {isOpen && 'University'}
                             {!isOpen && <FaUniversity className="h-6 w-6 inline" />}
                         </Link>
                     </li>
-                    <li className="px-2 py-2 text-gray-200 hover:bg-gray-700">
+                    <li className="px-2 py-2 text-gray-200 font-bold hover:bg-white hover:text-cyan-500">
+                        <Link to="/admin/university/form">
+                            {isOpen && <FaWpforms className="h-6 w-6 inline mr-5" />}
+                            {isOpen && 'University Form'}
+                            {!isOpen && <FaWpforms className="h-6 w-6 inline" />}
+                        </Link>
+                    </li>
+                    <li className="px-2 py-2 text-gray-200 font-bold hover:bg-white hover:text-cyan-500">
                         <Link to="/admin/session">
                             {isOpen && <SiSessionize className="h-6 w-6 inline mr-5" />}
                             {isOpen && 'Session'}
                             {!isOpen && <SiSessionize className="h-6 w-6 inline" />}
                         </Link>
                     </li>
-                    <li className="px-2 py-2 text-gray-200 hover:bg-gray-700">
+                    <li className="px-2 py-2 text-gray-200 font-bold hover:bg-white hover:text-cyan-500">
                         <Link to="/admin/course">
                             {isOpen && <FaBookJournalWhills className="h-6 w-6 inline mr-5" />}
                             {isOpen && 'Course'}
@@ -74,28 +82,28 @@ const AdminSidebar = () => {
                             {/* {!isOpen && <FaBookJournalWhills className='mr-45'/>} */}
                         </Link>
                     </li>
-                    <li className="px-2 py-2 text-gray-200 hover:bg-gray-700">
+                    <li className="px-2 py-2 text-gray-200 font-bold hover:bg-white hover:text-cyan-500">
                         <Link to="/admin/center">
                             {isOpen && <HiOutlineUser className="h-6 w-6 inline mr-5" />}
                             {isOpen && 'Center'}
                             {!isOpen && <HiOutlineUser className="h-6 w-6 inline" />}
                         </Link>
                     </li>
-                    <li className="px-2 py-2 text-gray-200 hover:bg-gray-700">
+                    <li className="px-2 py-2 text-gray-200 font-bold hover:bg-white hover:text-cyan-500">
                         <Link to="/admin/university/assign">
                             {isOpen && <MdAssignmentInd className="h-6 w-6 inline mr-5" />}
                             {isOpen && 'Assign University'}
                             {!isOpen && <MdAssignmentInd className="h-6 w-6 inline" />}
                         </Link>
                     </li>
-                    <li className="px-2 py-2 text-gray-200 hover:bg-gray-700">
+                    <li className="px-2 py-2 text-gray-200 font-bold hover:bg-white hover:text-cyan-500">
                         <Link to="/admin/news">
                             {isOpen && <IoNewspaperOutline className="h-6 w-6 inline mr-5" />}
-                            {isOpen && 'Settings'}
+                            {isOpen && 'News'}
                             {!isOpen && <IoNewspaperOutline className="h-6 w-6 inline" />}
                         </Link>
                     </li>
-                    <li className="px-2 py-2 text-gray-200 hover:bg-gray-700">
+                    <li className="px-2 py-2 text-gray-200 font-bold hover:bg-white hover:text-cyan-500">
                         <Link to="/settings">
                             {isOpen && <HiOutlineCog className="h-6 w-6 inline mr-5" />}
                             {isOpen && 'Settings'}
@@ -105,7 +113,7 @@ const AdminSidebar = () => {
                 </ul>
                 {/* Logout button */}
                 <button 
-                    className="text-white hover:text-gray-300"
+                    className="text-white hover:text-gray-300 font-bold"
                     onClick={handleSignOut}
                 >
                     {isOpen && <HiOutlineLogout className="h-6 w-6 inline mr-2" />}

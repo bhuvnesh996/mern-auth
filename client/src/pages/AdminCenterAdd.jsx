@@ -12,6 +12,7 @@ import {
   } from 'firebase/storage';
   import { app } from '../firebase';
 import { createCenter, resetCreate } from '../redux/center/centerSlice';
+import Snackbar from '../components/UI/SnackBar';
 export default function AdminCenterAdd() {
     const {createStatus} =  useSelector(state =>state.center)
     const dispatch = useDispatch()
@@ -45,9 +46,24 @@ export default function AdminCenterAdd() {
     const [ProfilePhoto,setProfilePhoto] = useState(undefined)
     const [VistOffice,setVistOffice] = useState(undefined)
     
+    const [snackbarOpen, setSnackbarOpen] = useState(false);
+    const [snackbarMessage, setSnackbarMessage] = useState('');
+    const [snackbarSeverity, setSnackbarSeverity] = useState('success');
+
+    const handleCloseSnackbar = () => {
+      setSnackbarOpen(false);
+  };
     useEffect(() => {
         if(createStatus===200){ 
-          navigate('/admin/center')
+         
+            setSnackbarOpen(true);
+            setSnackbarMessage('Center added successfully!');
+            setSnackbarSeverity('success');
+      
+            setTimeout(()=>{
+
+                navigate('/admin/center')
+            },5000)
           dispatch(resetCreate())
         }
         if (FrontAdhar) {
@@ -65,7 +81,7 @@ export default function AdminCenterAdd() {
           if (VistOffice) {
             handleFileUpload(VistOffice,'VistOffice');
           }
-      }, [FrontAdhar,BackAdhar,PanCard,ProfilePhoto,VistOffice,createCenter]);
+      }, [FrontAdhar,BackAdhar,PanCard,ProfilePhoto,VistOffice,createStatus]);
       const handleFileUpload = async (image,imageName) => {
         const storage = getStorage(app);
         const fileName = new Date().getTime() + image.name;
@@ -195,8 +211,14 @@ export default function AdminCenterAdd() {
 
   return (
     <div className="PageContainer"> 
-    <span>ADD CENTER </span>
-        <form class="w-full max-w-screen-lg mt-10" onSubmit={handleSubmit}>
+    <span className='text-3xl font-bold'>ON-BOARD CENTER </span>
+    <Snackbar
+                open={snackbarOpen}
+                message={snackbarMessage}
+                severity={snackbarSeverity}
+                onClose={handleCloseSnackbar}
+            />
+        <form class="w-full max-w-screen-lg mt-10 shadow-[0_20px_50px_rgba(8,_112,_184,_0.7)] p-4" onSubmit={handleSubmit}>
             <div class="flex flex-wrap -mx-3 mb-6">
                 <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
                     <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-first-name">

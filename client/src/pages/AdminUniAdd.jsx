@@ -10,6 +10,8 @@ import {
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import Snackbar from '../components/UI/SnackBar';
+import { Option, Select } from '@material-tailwind/react';
+import PageChanger from '../components/UI/PageChanger';
 
 export default  function AdminUniAdd() {
     const [error, setError] = useState(false);
@@ -24,6 +26,7 @@ export default  function AdminUniAdd() {
     const [snackbarOpen, setSnackbarOpen] = useState(false);
     const [snackbarMessage, setSnackbarMessage] = useState('');
     const [snackbarSeverity, setSnackbarSeverity] = useState('success');
+    const [pageChanger,setPageChanger] = useState(false)
     const navigate = useNavigate()
     const handleChange = (e) => {
         setFormData({ ...formData, [e.target.id]: e.target.value });
@@ -74,12 +77,22 @@ export default  function AdminUniAdd() {
             setLoading(false);
             if (data.success === false) {
                 setError(true);
+                setSnackbarOpen(true);
+                setSnackbarMessage(error.message || 'Something went wrong');
+                setSnackbarSeverity('error');
+                setFormData({})
                 return;
             }
             setSnackbarOpen(true);
             setSnackbarMessage('University added successfully!');
             setSnackbarSeverity('success');
-            navigate('/admin/university');
+            console.log("passed data")
+            setFormData({})
+            setPageChanger(true)
+            setTimeout(()=>{
+                navigate('/admin/university')
+            },5000)
+            
 
             } catch (error) {
             setLoading(false);
@@ -96,8 +109,9 @@ export default  function AdminUniAdd() {
 
   return (
     <div className="PageContainer" >
+        {pageChanger ? <PageChanger />: ""}
         <div className='mb-10'>
-           <span>University Onboarding System </span>
+           <span className='text-3xl font-bold'>UNIVERSITY ON-BOARDING SYSTEM</span>
         </div>
         <form class="w-full max-w-lg" onSubmit={handleSubmit}>
             <div class="flex flex-wrap -mx-3 mb-6">
@@ -130,13 +144,16 @@ export default  function AdminUniAdd() {
                     <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-last-name">
                         Vertical
                     </label>
-                    <input 
-                        class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" 
-                        id="vertical" 
-                        type="text"
-                        placeholder="Vertical"
-                        onChange={handleChange}
-                     />
+                 
+                      <select  
+                      className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                      label="Select Mode"  
+                       id="vertical" 
+                       onChange={handleChange}>
+                                <option  value="ONLINE">ONLINE</option>
+                                <option value="DISTANCE">DISTANCE</option>
+                                <option vale="REGULAR">REGULAR</option>
+                        </select >
                 </div>
                 <div class="w-full md:w-1/2 px-3">
                     <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-last-name">
@@ -150,6 +167,8 @@ export default  function AdminUniAdd() {
                         placeholder="Address"
                         onChange={handleChange}
                     />
+                         
+
                 </div>
                 <div class="w-full md:w-1/2 px-3">
                     <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-last-name">
@@ -172,7 +191,7 @@ export default  function AdminUniAdd() {
                 </label>
                 <input 
                     class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" 
-                    d="DealingWith"
+                    id="DealingWith"
                      type="text" 
                      placeholder="Dealing With"
                      onChange={handleChange}

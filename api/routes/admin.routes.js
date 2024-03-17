@@ -1,13 +1,17 @@
 import express from 'express';
 import { verifyAdmin } from '../utils/verifyAdmin.js';
-import { CreateUniversity, DeleteUniversity, FetchUniversity, UniversitySessionCreate, UniversitySessionDelete, UniversitySessionGet, UniversitySessionUpdate, allCenter, assignUniversityCreate, createCourseAndLinkToUniversity, deleteAssignedUniversity, deleteCenterWithRelatedUser, deleteCoursesWithRelatedUniversity, getAllCoursesWithUniversity, onBoardingCenter, searchCenter, unassignedUniversityCenter } from '../controllers/admin.controller.js';
+import { CreateForm, CreateUniversity, DeleteUniversity, FetchUniversity, UniversitySessionCreate, UniversitySessionDelete, UniversitySessionGet, UniversitySessionUpdate, allCenter, assignUniversityCreate, createCourseAndLinkToUniversity, deleteAssignedUniversity, deleteCenterWithRelatedUser, deleteCoursesWithRelatedUniversity, fetchUniversityForm, getAllCoursesWithUniversity, onBoardingCenter, searchCenter, unassignedUniversityCenter } from '../controllers/admin.controller.js';
 
 const router = express.Router();
 
 router.post('/university/create', CreateUniversity );
-
 router.get('/university/all',FetchUniversity);
 router.delete('/university/delete/:id',DeleteUniversity);
+
+
+
+router.post('/university/form/:id',CreateForm)
+router.get('/university/form/all',fetchUniversityForm)
 
 router.get('/university/session/all',UniversitySessionGet)
 router.post('/university/session/create',UniversitySessionCreate)

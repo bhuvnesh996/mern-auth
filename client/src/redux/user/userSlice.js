@@ -5,7 +5,8 @@ const initialState = {
   loading: false,
   error: false,
   centerDetail:null,
-  status:null
+  status:null,
+  selectedUniversity:null 
 };
 export const fetchCenterDetailsFromUser = createAsyncThunk(
   'User/fetchCenterDetail',
@@ -70,6 +71,12 @@ const userSlice = createSlice({
       state.loading = false;
       state.error = false;
     },
+    selectWorkingUniversity :(state,action)=>{
+      state.selectedUniversity = action.payload;
+    },
+    resetWorkingUniversity:(state) =>{
+      state.selectedUniversity = null;
+    }
   },extraReducers :(builder)=> {
     builder.addCase(fetchCenterDetailsFromUser.pending,(state)=>{
         state.status = "Loading"
@@ -97,6 +104,8 @@ export const {
   deleteUserStart,
   deleteUserSuccess,
   signOut,
+  selectWorkingUniversity,
+  resetWorkingUniversity,
 } = userSlice.actions;
 
 export default userSlice.reducer;

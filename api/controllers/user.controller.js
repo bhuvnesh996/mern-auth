@@ -62,8 +62,13 @@ export const getCenterUniversity = async (req,res,next) =>{
   try{
     const { id} =  req.params
     console.log("idiidiid",req.params)
-    const center = await Center.findById(id).populate('AssignUniversity.university');
-    // console.log("ceter center ",center.json())
+    const center = await Center.findById(id).populate({
+      path: 'AssignUniversity.university',
+      populate: {
+          path: 'form' // Populate the form field in the university
+      }
+    });
+    console.log("ceter center ",center)
     if (!center) {
       return res.status(404).json({ message: "Center not found" });
     }

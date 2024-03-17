@@ -64,7 +64,7 @@ export default function UniTable({university}) {
  
   return (
     
-    <Card className="h-full w-full">
+    <Card className="h-full w-full shadow-[0_20px_50px_rgba(8,_112,_184,_0.7)]">
       <DeletePopUp 
         open={openDeleteDialog}
         onClose={() => setOpenDeleteDialog(false)}

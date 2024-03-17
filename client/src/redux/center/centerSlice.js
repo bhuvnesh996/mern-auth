@@ -66,7 +66,7 @@ export const deleteCenter = createAsyncThunk(
   async(id)=>{
     const res = await fetch(`/api/admin/university/center/delete/${id}`,{
       method:"DELETE",
-      header:{
+      headers:{
         'Content-Type':'application/json'
       }
     });
@@ -80,7 +80,7 @@ export const searchCenter  = createAsyncThunk(
     console.log("center code queary",CenterCode)
     const res =  await fetch(`/api/admin/center/search?CenterCode=${CenterCode}`,{
       method:"GET",
-      header:{
+      headers:{
         'Content-Type':'application/json'
       }
     });

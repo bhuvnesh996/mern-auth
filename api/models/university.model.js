@@ -30,23 +30,22 @@ const uniSchema = new mongoose.Schema(
             default:"default"
         },
         status:{
-            type:String,
-            enum :['active','dactivated'],
-            default:"active"
+            type:Boolean,
+            default:true
+            
         },
         course:[{
             type:mongoose.Schema.Types.ObjectId,
             ref:"Course"
         }],
+        form: {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'Form'
+        },
         UniversityCode:{
             type:String,
             require:true
         }
-
-        
-       
-    
-
     },
     { timestamps: true }
 )

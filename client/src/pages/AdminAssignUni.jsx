@@ -43,7 +43,7 @@ export default function AdminAssignUni() {
         {searchloading ? (
           <Loader />
         ) : (
-          !Array.isArray(data) ? (
+          Array.isArray(data) ? (
             <div className='flex justify-center items-middle m-10 p-10 text-red-700'>
               No data found on this center code
             </div>
@@ -74,7 +74,7 @@ export default function AdminAssignUni() {
                         
                     </div>
                     
-                    <AdminAssignedUniTable centerID ={data._id} university={data.AssignUniversity} />
+                    <AdminAssignedUniTable centerID ={data?._id} university={data?.AssignUniversity} />
                     {/* <div className='flex flex-col  m-10 p-10'>
                       <div>
                         ASSIGNED UNIVERSITIES

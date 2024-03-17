@@ -71,7 +71,7 @@ export default function AdminCourseTable() {
     <div>
       {!course ? <Loader /> :
       
-    <Card className="h-full w-full">
+    <Card className="h-full w-full shadow-[0_20px_50px_rgba(8,_112,_184,_0.7)]">
         <DeletePopUp 
         open={openDeleteDialog}
         onClose={() => setOpenDeleteDialog(false)}
@@ -81,7 +81,7 @@ export default function AdminCourseTable() {
         <div className="mb-8 flex items-center justify-between gap-8">
           <div>
             <Typography variant="h5" color="blue-gray">
-                Course list
+                COURSE LIST
             </Typography>
             <Typography color="gray" className="mt-1 font-normal">
               See information about all course

@@ -62,7 +62,11 @@ const initialState = {
   const CourseSlice = createSlice({
     name:"course",
     initialState,
-    reducers:{},
+    reducers:{
+        restCourses:(state)=>{
+            state.createStatus =""
+        }
+    },
     extraReducers:(builder)=>{
         builder
         .addCase(fetchCourse.pending, (state) => {
@@ -111,5 +115,8 @@ const initialState = {
         })
     }
    })
+   export const {
+    restCourses
+  } = CourseSlice.actions;
 
    export default CourseSlice.reducer;

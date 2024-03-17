@@ -8,8 +8,9 @@ import { FaMinus } from "react-icons/fa";
 
 
 import { FaPlus } from "react-icons/fa";
-import { CreateCourse } from '../redux/course/courseSlice';
+import { CreateCourse, restCourses } from '../redux/course/courseSlice';
 import { useNavigate } from 'react-router-dom';
+import Snackbar from '../components/UI/SnackBar';
 
 export default function AdminCourseCreate() {
    
@@ -27,11 +28,38 @@ export default function AdminCourseCreate() {
     const [shortName,setShortName] = useState("")
     const [duration,setDuration] = useState(0)
     const [semester,setSemester] = useState(0)
+    const [snackbarOpen, setSnackbarOpen] = useState(false);
+    const [snackbarMessage, setSnackbarMessage] = useState('');
+    const [snackbarSeverity, setSnackbarSeverity] = useState('success');
 
     const dispatch = useDispatch()
     useEffect(()=>{
+        dispatch(restCourses())
         dispatch(getAllUniversity())
+       
     },[dispatch])
+
+    useEffect(()=>{
+        
+        if(createStatus === 'fulfilled'){
+            setSnackbarOpen(true);
+            setSnackbarMessage('Session added successfully!');
+            setSnackbarSeverity('success');
+        }
+    },[createStatus])
+    const handleReset =()=>{
+        setValues([]);
+        setName("");
+        setGraduationType('')
+        setShortName('')
+        setDuration(0)
+        setSemester(0)
+        setCheckedValues([])
+        setSelectedUniversity()
+        dispatch(restCourses())
+        handleReset()
+
+    }
    
     const handleSubmit = (e)=>{
         e.preventDefault();
@@ -65,7 +93,9 @@ export default function AdminCourseCreate() {
         console.log("log data of course creation",data)
 
         dispatch(CreateCourse(data))
-
+        setTimeout(()=>{
+        navigate('/admin/course')
+        },5000)
         }
         // Redirect after successful course creation
       
@@ -127,13 +157,22 @@ export default function AdminCourseCreate() {
         }
         
     };
+    const handleSnackbarClose = () => {
+        setSnackbarOpen(false);
+    };
     console.log("check value",checkedValues)
   return (
     <div  className="PageContainer">
-         <span>Create COURSE</span>
+               <Snackbar
+                open={snackbarOpen}
+                message={snackbarMessage}
+                severity={snackbarSeverity}
+                onClose={handleSnackbarClose}
+            />
+         <span className='text-3xl font-bold'>COURSE CREATION</span>
         {loading ? <Loader /> : 
         
-        <form class="w-full max-w-screen-lg mt-10" onSubmit={handleSubmit}>
+        <form class="w-full max-w-screen-lg mt-10  shadow-[0_20px_50px_rgba(8,_112,_184,_0.7)] p-4" onSubmit={(e)=>handleSubmit(e)}>
             <div class="flex flex-wrap -mx-3 mb-6">
                 <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
                     <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-first-name">
@@ -142,7 +181,7 @@ export default function AdminCourseCreate() {
                     <Select defaultValue="Null" placeholder='Select University' onChange={event => handleUniversityChange(event)}>
                             {University?.map((item, index) => (
                                 <Option key={index} value={item}>
-                                    {item.universityName}
+                                  <div className='flex flex-row items-center'> {<div><img className='w-[40px]' src= {item.UniLogo} /></div>} {item.universityName}-{item.vertical}</div>
                                 </Option>
                             ))}
                     </Select>
@@ -151,7 +190,11 @@ export default function AdminCourseCreate() {
                     <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-last-name">
                         Course Name
                     </label>
-                    <input value={name} onChange={(e)=>handleChangeName(e)} class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-last-name" type="text" placeholder="Doe"/>
+                    <input value={name} onChange={(e)=>handleChangeName(e)} class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" 
+                        id="grid-last-name" 
+                        type="text" 
+                        required
+                        placeholder="Course Name"/>
                     <p className='text-red-800'>{nameError}</p>
                 </div>
                 <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
@@ -159,7 +202,13 @@ export default function AdminCourseCreate() {
                         Specialization
                     </label>
                     <div className='flex flex-row justify-center w-full'>
-                    <input value={inputValue} onChange={handleChange} class="appearance-none block w-full bg-gray-200 text-gray-700 border border-red-500 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white" id="grid-first-name" type="text" placeholder="Jane"/>
+                    <input value={inputValue} 
+                        onChange={handleChange} 
+                        class="appearance-none block w-full bg-gray-200 text-gray-700 border border-red-500 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
+                        id="grid-first-name" 
+                        type="text" 
+                    
+                        placeholder="Specialization"/>
                     
                         <button className='py-3 px-4 mb-3' onClick={handleAdd}>
                             <FaPlus color="green"/>
@@ -193,7 +242,14 @@ export default function AdminCourseCreate() {
                     <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-first-name">
                         Short Name
                     </label>
-                    <input value={shortName} onChange={handleShortNameChange} class="appearance-none block w-full bg-gray-200 text-gray-700 border border-red-500 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white" id="grid-first-name" type="text" placeholder="Jane"/>
+                    <input 
+                        value={shortName} 
+                        onChange={handleShortNameChange} 
+                        class="appearance-none block w-full bg-gray-200 text-gray-700 border border-red-500 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white" 
+                        id="grid-first-name" 
+                        type="text" 
+                        required
+                        placeholder="Short Name"/>
                
                 </div>
                 <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
@@ -208,11 +264,13 @@ export default function AdminCourseCreate() {
                 </div>
                 <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
                     <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-first-name">
-                        Number of sem
+                        Number of semester
                     </label>
                     <input value={semester} onChange={handleSemesterChange} 
                     class="appearance-none block w-full bg-gray-200 text-gray-700 border border-red-500 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white" 
-                    id="grid-first-name" type="number" placeholder="Number of semester"/>
+                    id="grid-first-name" 
+                    required
+                    type="number" placeholder="Number of semester"/>
                     
                 </div>
                 <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0 block">
@@ -229,6 +287,7 @@ export default function AdminCourseCreate() {
                             id="high-school"
                             className="ml-2" 
                             type='checkbox'
+                            
                             onChange={() => handleCheckboxChange('high-school')}
                             checked={checkedValues.includes('high-school')}
                             />
@@ -308,7 +367,7 @@ export default function AdminCourseCreate() {
  
             <div className='flex flex-row justify-between mb-6 mt-10'>
                
-                <button  class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">RESET</button>
+                <button  onClick ={handleReset} class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">RESET</button>
                 { createLoading ? <Loader />   :
                 <button  class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" type="submit">SUBMIT</button>
                 }

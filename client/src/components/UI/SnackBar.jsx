@@ -14,7 +14,7 @@ const Snackbar = ({ open, message, severity, onClose }) => {
 
     return (
         <div
-            className={`fixed bottom-0 left-0 right-0 mb-4 mx-auto w-80 p-4 rounded-md shadow-md text-white ${getColor()} transition-opacity duration-300 ${
+            className={`fixed top-0  right-0 mb-4 mx-auto w-80 p-4 rounded-md shadow-md text-white ${getColor()} transition-opacity duration-300 ${
                 open ? 'opacity-100' : 'opacity-0 pointer-events-none'
             }`}
         >

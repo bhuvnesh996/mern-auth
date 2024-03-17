@@ -36,6 +36,7 @@ export const getAllUniversity = createAsyncThunk(
     }
   )
 
+
 const initialState = {
     University: null,
     loading: false,

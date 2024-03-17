@@ -139,7 +139,7 @@ export default function AdminAssignedUniTable({centerID, university}) {
                             color="blue-gray"
                             className="font-normal"
                           >
-                            {university.universityName}
+                            {university?.universityName}
                           </Typography>
                          
                         </div>
@@ -152,7 +152,7 @@ export default function AdminAssignedUniTable({centerID, university}) {
                           color="blue-gray"
                           className="font-normal"
                         >
-                          {university.univserityShortName}
+                          {university?.univserityShortName}
                         </Typography>
                        
                       </div>
@@ -164,7 +164,7 @@ export default function AdminAssignedUniTable({centerID, university}) {
                           color="blue-gray"
                           className="font-normal"
                         >
-                          {university.vertical}
+                          {university?.vertical}
                         </Typography>
                        
                       </div>
@@ -175,7 +175,7 @@ export default function AdminAssignedUniTable({centerID, university}) {
                         color="blue-gray"
                         className="font-normal"
                       >
-                        {university.address}
+                        {university?.address}
                       </Typography>
                     </td>
                     <td className={classes}>
@@ -191,7 +191,7 @@ export default function AdminAssignedUniTable({centerID, university}) {
                             color="blue-gray"
                             className="font-normal"
                             >
-                            {university.status}
+                            {university?.status}
                         </Typography>
                       </div>
                     </td>

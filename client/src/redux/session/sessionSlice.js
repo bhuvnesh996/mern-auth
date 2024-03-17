@@ -5,6 +5,7 @@ const initialState = {
     Session: null,
     loading: false,
     error: false,
+    SessionCreation:false,
     deleteSession: {
         error :false,
         loading:false,
@@ -84,6 +85,9 @@ export const deleteMySession = createAsyncThunk(
             state.loading = false 
             state.error = action.payload
         },
+        resetCreateSession:(state)=>{
+            state.SessionCreation = false
+        }
     },extraReducers:(builder)=> {
         builder.addCase(fetchSession.pending,(state)=>{
             state.loading = true 
@@ -98,14 +102,17 @@ export const deleteMySession = createAsyncThunk(
         })
         .addCase(createSession.pending,(state)=>{
             state.loading = true
+            state.SessionCreation = false
         })
         .addCase(createSession.fulfilled,(state,action)=>{
             state.loading = false
             state.Session =  action.payload
+            state.SessionCreation = true
         })
         .addCase(createSession.rejected,(state,action)=>{
             state.loading = false 
             state.error = action.payload
+            state.SessionCreation = false
         })
         .addCase(deleteMySession.pending,(state)=>{
             state.loading = true;
@@ -123,7 +130,7 @@ export const deleteMySession = createAsyncThunk(
 
   export const {
     fetchSessionStart,fetchSessionSuccess,fetchSessionEnd,SessionCreateStart,SessionCreateSuccess,SessionCreateFail,
-    deleteSessionStart,deleteSessionSuccess,deleteSessionEnd
+    deleteSessionStart,deleteSessionSuccess,deleteSessionEnd,resetCreateSession
   } = sessionSlice.actions;
 
   export default sessionSlice.reducer;

@@ -5,11 +5,13 @@ import { errorHandler } from '../utils/error.js';
 import Center from "../models/center.model.js";
 import bcryptjs from 'bcryptjs';
 import User from "../models/user.model.js";
+import Form from "../models/form.model.js";
+import Category from "../models/form.model.js";
 
 export const CreateUniversity = async(req,res,next)=>{
     try{
-        const {universityName,univserityShortName,vertical,address, UniLogo,UniversityCode } = req.body
-        const newUni = await University.create({universityName,univserityShortName,vertical,address, UniLogo,UniversityCode})
+        const {universityName,univserityShortName,vertical,address, UniLogo,UniversityCode,DealingWith } = req.body
+        const newUni = await University.create({universityName,univserityShortName,vertical,address, UniLogo,UniversityCode,DealingWith})
         await newUni.save();
 
         res.status(201).json({ message: 'University created successfully' });
@@ -47,7 +49,48 @@ export const DeleteUniversity = async (req,res,next)=>{
     }
 }
 
+export const CreateForm = async (req,res,next) =>{
+  try {
 
+    const universityId = req.params.id;
+    console.log("passedid", universityId)
+    console.log("datadid", req.body)
+    const form1 = { 
+      Form :req.body
+    }
+    console.log("form1", form1)
+     // Extract form data from request body
+    //  const { categories } = req.body;
+    // console.log("mycat",categories)
+     // Validate if categories data exists and is an array
+    //  if (!Array.isArray(categories)) {
+    //    return res.status(400).json({ message: 'Categories data must be an array' });
+    //  }
+ 
+     // Create a new form document
+     const createdForm = await Form.create({form:req.body});
+ 
+    console.log("saved Form",createdForm)
+     // Send a success response with the saved form data
+
+    await University.findByIdAndUpdate(universityId, { form: createdForm._id });
+    
+    res.status(201).json(createdForm);
+} catch (error) {
+    console.error('Error creating form:', error);
+    next(error)
+}
+}
+
+export const fetchUniversityForm = async (req,res,next) =>{
+  try{
+    const formUniversity = await University.find().populate('form')
+    console.log("eher")
+    res.status(201).json(formUniversity)
+  }catch(error){
+    next(error)
+  }
+}
 
 export const UniversitySessionCreate = async (req,res,next)=>{
 
@@ -275,7 +318,7 @@ const centerId = req.params.id;
 export const searchCenter = async(req,res,next)=>{
     try {
         const { CenterCode } = req.query;
-    
+        console.log("centerCodesend ",typeof CenterCode)
         if (!CenterCode) {
           return res.status(400).json({ message: 'CenterCode is required' });
         }
@@ -283,7 +326,7 @@ export const searchCenter = async(req,res,next)=>{
         const centers = await Center.findOne({ CenterCode: CenterCode }).populate('AssignUniversity.university');
     
         if (!centers) {
-          return next(errorHandler(401, 'No center found'));
+          return next(errorHandler(404, 'No center found'));
         }
     
         // If centers found, return them
