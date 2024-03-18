@@ -4,6 +4,7 @@ import dotenv from 'dotenv';
 import userRoutes from './routes/user.route.js';
 import authRoutes from './routes/auth.route.js';
 import adminRoute from './routes/admin.routes.js'
+import studentRoute from './routes/student.routes.js'
 import cookieParser from 'cookie-parser';
 import path from 'path';
 dotenv.config();
@@ -38,6 +39,7 @@ app.listen(3000, () => {
 app.use('/api/user', userRoutes);
 app.use('/api/auth', authRoutes);
 app.use('/api/admin',adminRoute);
+app.use('/api/admin/student',studentRoute)
 
 
 

@@ -120,6 +120,17 @@ export const UniversitySessionGet = async(req,res,next) => {
     }
 }
 
+export const getSessionByUniversity = async(req,res,next)=> {
+  try {
+    const universityId = req.params
+    console.log("mybodfsfasy",req.params)
+    const sessions = await Session.find({ university: req.params.id });
+    res.status(200).json(sessions)
+} catch (error) {
+    console.error("Error retrieving sessions:", error);
+    next(error); // Handle or rethrow the error as needed
+}
+}
 export const UniversitySessionDelete = async (req,res,next) =>{
     try{
         const id =  req.params.id
@@ -153,7 +164,15 @@ export const UniversitySessionUpdate = async (req, res, next) => {
   };
 
 
-
+export const fetchCourseByUniversity = async (req,res,next)=>{
+  try {
+    console.log("req param",req.params.id)
+      const course =  await  University.findById( {_id:req.params.id}).populate('course')
+      res.status(200).json(course)
+  }catch(error){
+    next(error)
+  }
+}
 
 
 

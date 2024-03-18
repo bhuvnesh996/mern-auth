@@ -33,7 +33,8 @@ export default function ChangeUniversity() {
         
               {Assignuniversity?.map((item=>{
                 return (
-                  <div onClick={()=>universitySelect(item)} className='shadow-[16px_2px_40px_22px_#fcd34d,-5px_-15px_32px_38px_#0279860C] flex flex-col h-[180px] w-[220px] text-black border border-white-900 p-1 shadow-[0_3px_10px_rgb(0,0,0,0.2)] hover:bg-sky-700  hover:scale-105 transition-all duration-300 rounded-lg' key={item.university._id}>
+                   item.university === null ? "":
+                  <div onClick={()=>universitySelect(item)} className='shadow-[16px_2px_40px_22px_#fcd34d,-5px_-15px_32px_38px_#0279860C] flex flex-col h-[180px] w-[220px] text-black border border-white-900 p-1 shadow-[0_3px_10px_rgb(0,0,0,0.2)] hover:bg-sky-700  hover:scale-105 transition-all duration-300 rounded-lg' key={item?.university?._id}>
                       <div > 
                         <img className='h-[160px] w-[300px] self-center cursor-pointer  object-contained' src={item?.university?.UniLogo} />
                       </div>  
@@ -43,7 +44,7 @@ export default function ChangeUniversity() {
                     
         
                   </div>
-                )
+                   )
               }))}
          
         </div>
