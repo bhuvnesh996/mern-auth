@@ -1,5 +1,5 @@
-import Student from "../models/student.model";
-import University from "../models/university.model";
+import Student from "../models/student.model.js";
+import University from "../models/university.model.js";
 
 export const fetchAllstudent = async(req,res,next) =>{
     try{
