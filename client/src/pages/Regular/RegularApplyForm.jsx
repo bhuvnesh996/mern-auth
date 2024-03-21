@@ -7,7 +7,7 @@ import { createStudentAsync, restCreateStatus } from '../../redux/student/studen
 import Snackbar from '../../components/UI/SnackBar'
 
 
-export default function DistanceApplyForm() {
+export default function RegularApplyForm() {
     const dispatch = useDispatch()
 
     const universitySelect = useSelector(state=>state.user?.selectedUniversity?.university)

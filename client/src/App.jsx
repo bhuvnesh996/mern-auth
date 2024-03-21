@@ -42,6 +42,10 @@ import DistanceRoutes from './components/routers/DistanceRoutes';
 import Adminform from './pages/Adminform';
 import AdminFormCreate from './pages/AdminFormCreate';
 import DistanceApplyForm from './pages/Distance/DistanceApplyForm';
+import DistanceShowApplicant from './pages/Distance/DistanceShowApplicant';
+import AdminApplicantView from './pages/AdminApplicantView';
+import RegularShowApplication from './pages/Regular/RegularShowApplication';
+import RegularApplyForm from './pages/Regular/RegularApplyForm';
 
 export default function App() {
   const { currentUser,selectedUniversity  } = useSelector((state) => state.user);
@@ -83,6 +87,7 @@ export default function App() {
           <Route path = '/admin/course/create' element = {<AdminCourseCreate />} />
           <Route path='/admin/university/assign' element = {<AdminAssignUni />} />
           <Route path='/admin/news' element = {<AdminNews/>} />
+          <Route path='/admin/applicant/view' element = {<AdminApplicantView />} />
         </Route> 
   
 
@@ -99,11 +104,14 @@ export default function App() {
         </Route>
         <Route element ={< RegularRoutes/>}>
             <Route path="/regular/dashboard" element={<RegularDashboard/>} />
+            <Route path="/regular/apply"element ={<RegularApplyForm />}/>
+            <Route path="/regular/show/applicants" element ={<RegularShowApplication />}/>
            
         </Route>
         <Route  element = {<DistanceRoutes />}>
               <Route path ="/distance/dashboard" element= {<DistanceDashboard />} />
               <Route path ="/distance/apply" element ={ <DistanceApplyForm />} />
+              <Route path = "/distance/show/applicants" element ={<DistanceShowApplicant />} />
 
         </Route>
         

@@ -48,7 +48,8 @@ export default function DistanceUniversityLayout({selectedUniversity}) {
                 },
                 {
                     title:"Show Admission",
-                    icon:< FaEye/>
+                    icon:< FaEye/>,
+                    path: "/distance/show/applicants"
                 },
             ],
         },{

@@ -101,7 +101,7 @@ export default function OnlineUniversityLayout({selectedUniversity}) {
     <div className= 'flex h-screen' >
         <div className='flex bg-kyz flex-col'>
       {/* Sidebar content */}
-            <div className={`p-5 pt-8 ${isOpen ? "w-72":"w-20"} duration-300 relative flex flex-row`} >
+            <div className={`transition-[width] duration-500 ease-in-out p-5 pt-8 ${isOpen ? "w-72":"w-20"}  relative flex flex-row`} >
                 <GiHamburgerMenu  className={`text-white text-3xl rounded-full absolute cursor-pointer ${!isOpen && "absolute float-right"}`} onClick={()=>setIsOpen(!isOpen)}/>
                 <div className='ml-[60px]' >
                     <img className='w-[60px] ml-[60px] h-[50] object-fit' src={selectedUniversity.university.UniLogo} />
@@ -121,8 +121,8 @@ export default function OnlineUniversityLayout({selectedUniversity}) {
                         {Menus.map((menu, index) => (
                                         <React.Fragment key={index}>
                                             <li className='text-white text-sm flex items-center gap-x-4 cursor p-2 hover:bg-white rounded-l-lg mt-2 hover:text-kyz'>
-                                                <span className='text-2xl block float-left duration-300'>{menu.icon}</span>
-                                                <span className={`text-base font-medium flex-1 duration-300 ${!isOpen && "hidden"}`}>{menu.title}</span>
+                                                <span className='text-2xl block float-left transition-[width] duration-500 ease-in-out '>{menu.icon}</span>
+                                                <span className={`text-base font-medium flex-1 transition-[width] duration-500 ease-in-out  ${!isOpen && "hidden"}`}>{menu.title}</span>
                                                 {menu.submenu && (
                                                     <BsChevronDown  className={`${!isOpen && "hidden"}`} onClick={() => handleSubmenu(index)}/>
                                                 )}
@@ -138,7 +138,7 @@ export default function OnlineUniversityLayout({selectedUniversity}) {
                                                 </ul>
                                             )}
                                         </React.Fragment>
-                                    ))}
+                        ))}
                     </ul>
     </div>
 

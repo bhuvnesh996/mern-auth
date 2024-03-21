@@ -26,36 +26,41 @@ const studentSchema = new mongoose.Schema({
         enum: ['pending', 'approved', 'cancelled'],
         default: 'pending'
     },
-    applicationReason :String ,
+    applicationStatusReason :{
+        type:String,
+        default:"Admin is reviewing your application"
+    } ,
 
     
     docStatus: {
         type: String,
-        enum: ['pending', 'approved', 'rejected'],
+        enum: ['pending', 'verified', 'revert','recheck'],
         default: 'pending'
     },
     docStatusReason:{
         type:String,
-        default:""
+        default:"Admin is checking the documents"
     },
+    
     unicode: {
         type: String,
-        required: true
+   
     },
     center: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Center',
         required: true
     },
-    onboardedCenter: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Center',
-        required: true
-    },
+
     studentType : {
         type:String ,
-        enum:['Fresh,RR'],
+        enum:['Fresh','RR'],
         default: 'Fresh'
+    },
+    paymentStatus : {
+        type:String,
+        enum:['Pending','Payed','Rejected'],
+        default:'Pending'
     },
     // Dynamic form data stored as key-value pairs
     dynamicFormData: {

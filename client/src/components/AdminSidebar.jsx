@@ -9,12 +9,16 @@ import { FaBookJournalWhills } from "react-icons/fa6";
 import { MdAssignmentInd } from "react-icons/md";
 import { IoNewspaperOutline } from "react-icons/io5";
 import { FaWpforms } from "react-icons/fa6";
+import { FaRegEye } from "react-icons/fa";
+import { PiStudent } from "react-icons/pi";
 
 
-import { HiMenu, HiX } from 'react-icons/hi';
+import { HiMenu } from 'react-icons/hi';
+import { BsChevronDown } from 'react-icons/bs';
 
 const AdminSidebar = () => {
     const [isOpen, setIsOpen] = useState(false);
+    const [drop1,setDrop1] = useState(false)
     const dispatch = useDispatch();
 
     const handleToggleSidebar = () => {
@@ -29,6 +33,9 @@ const AdminSidebar = () => {
           console.log(error);
         }
     };
+    const handleDrop1 = async ()=>{
+        setDrop1(!drop1)
+    }
 
     return (
         <div className={`bg-sidebar-image bg-cover bg-center h-full fixed top-0 left-0 ${isOpen ? 'w-64' : 'w-16'} transition-all duration-300 overflow-x-hidden`}>
@@ -41,7 +48,7 @@ const AdminSidebar = () => {
             </button>
           
             {/* Sidebar content */}
-            <div className="p-2" style={{marginTop:"30px"}}>
+            <div className="py-2" style={{marginTop:"30px"}}>
                 {/* Logo */}
                
                 {/* Sidebar links */}
@@ -79,7 +86,7 @@ const AdminSidebar = () => {
                             {isOpen && <FaBookJournalWhills className="h-6 w-6 inline mr-5" />}
                             {isOpen && 'Course'}
                             {!isOpen && <FaBookJournalWhills className="h-6 w-6 inline" />}
-                            {/* {!isOpen && <FaBookJournalWhills className='mr-45'/>} */}
+ 
                         </Link>
                     </li>
                     <li className="px-2 py-2 text-gray-200 font-bold hover:bg-white hover:text-cyan-500">
@@ -96,6 +103,24 @@ const AdminSidebar = () => {
                             {!isOpen && <MdAssignmentInd className="h-6 w-6 inline" />}
                         </Link>
                     </li>
+                    <li className="px-2 py-2 text-gray-200 font-bold hover:bg-white hover:text-cyan-500">
+                        <Link className='flex flex-row items-center'>
+                            {isOpen && <PiStudent className="h-6 w-6 inline mr-5" />}
+                            {isOpen && 'Admission Managment'}
+                            {!isOpen && <PiStudent className="h-6 w-6 inline" />}
+                            {!isOpen ? <BsChevronDown  className={`${!isOpen && "hidden"}`} onClick={handleDrop1}/> : <BsChevronDown  className={`${!isOpen && "hidden"}`} onClick={handleDrop1}/> }
+                        </Link>
+                    </li>
+                    { drop1 &&
+                    <ul>    
+                        <li className='px-2 py-2 text-gray-200 font-bold hover:bg-white hover:text-cyan-500'>
+                            <Link to ="/admin/applicant/view" className='flex flex-row items-center' >
+                                     {isOpen && <FaRegEye className="h-6 w-6 inline mr-5" />}
+                                     {isOpen && "Applicatant Views"}
+                            </Link>
+                        </li>
+                    </ul>
+                    }
                     <li className="px-2 py-2 text-gray-200 font-bold hover:bg-white hover:text-cyan-500">
                         <Link to="/admin/news">
                             {isOpen && <IoNewspaperOutline className="h-6 w-6 inline mr-5" />}

@@ -5,11 +5,12 @@ import sessionReducer from './session/sessionSlice.js'
 import courseReducer from './course/courseSlice.js'
 import centerReducer from './center/centerSlice.js'
 import formReducer from './form/formSlice.js'
+import studentReducer from './student/studentSlice.js'
 import { persistReducer, persistStore } from 'redux-persist';
 import storage from 'redux-persist/lib/storage';
 
 
-const rootReducer = combineReducers({ user: userReducer ,university:universityReducer,session:sessionReducer,course:courseReducer,center:centerReducer,form:formReducer});
+const rootReducer = combineReducers({ user: userReducer ,university:universityReducer,session:sessionReducer,course:courseReducer,center:centerReducer,form:formReducer,student:studentReducer});
 
 const persistConfig = {
   key: 'root',

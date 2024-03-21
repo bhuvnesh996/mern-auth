@@ -32,7 +32,8 @@ export default function RegularUniversityLayout({selectedUniversity}) {
      const Menus = [
         {
             title:"Dashboard",
-            icon:<MdDashboard />
+            icon:<MdDashboard />,
+            path:"/regular/dashboard"
         
         },
         {
@@ -42,11 +43,13 @@ export default function RegularUniversityLayout({selectedUniversity}) {
             submenuItems:[
                 {
                     title:"Apply Fresh",
-                    icon: <BsFillSendFill />
+                    icon: <BsFillSendFill />,
+                    path: '/regular/apply'
                 },
                 {
                     title:"Show Admission",
-                    icon:< FaEye/>
+                    icon:< FaEye/>,
+                    path:"/regular/show/applicants"
                 },
             ],
         },{
@@ -133,6 +136,7 @@ export default function RegularUniversityLayout({selectedUniversity}) {
                     <ul className={`pt-2 ${!isOpen} && ml-4`}>
                         {Menus.map((menu, index) => (
                                         <React.Fragment key={index}>
+                                            <Link to={menu.path} >
                                             <li className='text-white text-sm flex items-center gap-x-4 cursor p-2 hover:bg-white rounded-l-lg mt-2 hover:text-indigo-500 '>
                                                 <span className='text-2xl block float-left duration-300'>{menu.icon}</span>
                                                 <span className={`text-base font-medium flex-1 duration-300 ${!isOpen && "hidden"}`}>{menu.title}</span>
@@ -140,13 +144,16 @@ export default function RegularUniversityLayout({selectedUniversity}) {
                                                     <BsChevronDown  className={`${!isOpen && "hidden"}`} onClick={() => handleSubmenu(index)}/>
                                                 )}
                                             </li>
+                                            </Link>
                                             {submenuOpen[index] && menu.submenu && isOpen && (
                                                 <ul>
                                                     {menu.submenuItems.map((subItem, subIndex) => (
+                                                        <Link to={subItem.path}>
                                                         <li key={subIndex} className='text-white text-sm flex items-center rounded-l-lg gap-x-4 cursor p-2 px-5 hover:bg-white rounded-md mt-2  hover:text-indigo-500'>
                                                              <span className={`text-2xl   block float-left ${!isOpen&&'hidden'}`}>{subItem.icon}</span>
                                                             <span className={`text-base font-medium flex-1 duration-300 ${!isOpen && "hidden"}`}>{subItem.title}</span>
                                                         </li>
+                                                        </Link>
                                                     ))}
                                                 </ul>
                                             )}
